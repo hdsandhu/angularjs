@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+
+<head>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+</head>
+
+<body>
+This will print result. data-ng-app tells that angular js will run in this div
+<div data-ng-app="">
+<p>My first expression: {{ 5 + 5 }}</p>
+</div>
+<br>
+    This will not print because its outside the anuglar js div
+<p>My first expression: {{ 5 + 5 }}</p>
+
+</body>
 </html>

@@ -6,3 +6,14 @@ The ng-model directive binds the value of HTML controls (input, select, textarea
 
 The ng-bind directive binds application data to the HTML view. 
 
+The ng-init directive initialize AngularJS application variables.
+
+You can use data-ng-, instead of ng-, if you want to make your page HTML5 valid. 
+
+
+
+AngularJS Expressions
+
+AngularJS expressions are written inside double braces: {{ expression }}.
+
+AngularJS expressions bind data to HTML the same way as the ng-bind directive.
