@@ -1,0 +1,39 @@
+AngularJS Controllers
+
+AngularJS applications are controlled by controllers.
+
+The ng-controller directive defines the controller.
+
+The controller code will execute when the page loads.
+
+
+ <!DOCTYPE html>
+<html>
+
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+</head>
+
+<body>
+    <br><br><br><br>
+    
+ <div ng-app="" ng-controller="personController">
+
+First Name: <input type="text" ng-model="firstName"><br>
+Last Name: <input type="text" ng-model="lastName"><br>
+<br>
+Full Name: {{firstName + " " + lastName}}
+
+</div>
+
+<script>
+function personController($scope) {
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+}
+</script> 
+<br><br>
+Create a function named personConroller same name as given in ng-controller
+
+</body>
+</html> 

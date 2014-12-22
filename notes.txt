@@ -17,3 +17,458 @@ AngularJS Expressions
 AngularJS expressions are written inside double braces: {{ expression }}.
 
 AngularJS expressions bind data to HTML the same way as the ng-bind directive.
+
+
+
+AngularJS Controllers
+
+AngularJS applications are controlled by controllers.
+The ng-controller directive defines the controller.
+The controller code will execute when the page loads.
+
+
+AngularJS directives are extended HTML attributes with the prefix ng-.
+
+The ng-app directive initializes an AngularJS application.
+
+The ng-init directive initialize application data.
+
+The ng-model directive binds the value of HTML controls (input, select, textarea) to application data.
+
+
+
+
+
+Data Binding
+
+The {{ firstName }} expression, in the example above, is an AngularJS data binding expression.
+
+Data binding in AngularJS, synchronizes AngularJS expressions with AngularJS data.
+
+{{ firstName }} is synchronized with ng-model="firstName".
+
+
+
+
+Repeating HTML Elements
+
+The ng-repeat directive repeats an HTML element:
+
+<div ng-app="" ng-init="names=['Jani','Hege','Kai']">
+  <ul>
+    <li ng-repeat="x in names">
+      {{ x }}
+    </li>
+  </ul>
+</div>
+
+The ng-repeat directive used on an array of objects:
+ <div ng-app="" ng-init="names=[
+{name:'Jani',country:'Norway'},
+{name:'Hege',country:'Sweden'},
+{name:'Kai',country:'Denmark'}]">
+
+<ul>
+  <li ng-repeat="x in names">
+    {{ x.name + ', ' + x.country }}
+  </li>
+</ul>
+
+
+
+
+
+
+The ng-app Directive
+
+The ng-app directive defines the root element of an AngularJS application.
+
+The ng-app directive will auto-bootstrap (automatically initialize) the application when a web page is loaded.
+
+Later you will learn how ng-app can have a value (like ng-app="myModule"), to connect code modules.
+
+
+
+
+The ng-model Directive
+
+The ng-model directive binds the value of HTML controls (input, select, textarea) to application data.
+The ng-model directive can also:
+    Provide type validation for application data (number, email, required).
+    Provide status for application data (invalid, dirty, touched, error).
+    Provide CSS classes for HTML elements.
+    Bind HTML elements to HTML forms.
+
+
+
+
+
+The AngularJS application is defined by ng-app. The application runs inside a <div>.
+The ng-controller directive names the controller object.
+The personController function is a standard JavaScript object constructor.
+AngularJS will invoke personController with a $scope object.
+In AngularJS, $scope is the application object (the owner of application variables and functions).
+The personController creates two properties (variables) in the scope (firstName and lastName).
+The ng-model directives bind the input fields to the controller properties (firstName and lastName).
+<div ng-app="" ng-controller="personController">
+
+First Name: <input type="text" ng-model="firstName"><br>
+Last Name: <input type="text" ng-model="lastName"><br>
+<br>
+Full Name: {{firstName + " " + lastName}}
+
+</div>
+
+<script>
+function personController($scope) {
+    $scope.firstName="John",
+    $scope.lastName="Doe"
+}
+
+
+
+
+
+
+Controller Methods
+The example above demonstrated a controller object with two properties: lastName and firstName.
+A controller can also have methods (functions as object properties):
+ <div ng-app="" ng-controller="personController">
+
+First Name: <input type="text" ng-model="firstName"><br>
+Last Name: <input type="text" ng-model="lastName"><br>
+<br>
+Full Name: {{fullName()}}
+
+</div>
+
+<script>
+function personController($scope) {
+    $scope.firstName = "John",
+    $scope.lastName = "Doe",
+    $scope.fullName = function() {
+        return $scope.firstName + " " + $scope.lastName;
+    }
+}
+</script>
+
+
+
+
+
+
+
+AngularJS Filters
+
+AngularJS filters can be used to transform data:
+Filter 	Description
+currency 	Format a number to a currency format.
+filter 	Select a subset of items from an array.
+lowercase 	Format a string to lower case.
+orderBy 	Orders an array by an expression.
+uppercase 	Format a string to upper case.
+
+
+ <div ng-app="" ng-controller="personController">
+
+<p>The name is {{ lastName | uppercase }}</p>
+
+</div> 
+
+
+ <div ng-app="" ng-controller="costController">
+
+<input type="number" ng-model="quantity">
+<input type="number" ng-model="price">
+
+<p>Total = {{ (quantity * price) | currency }}</p>
+
+</div> 
+
+
+ <div ng-app="" ng-controller="namesController">
+
+<ul>
+  <li ng-repeat="x in names | orderBy:'country'">
+    {{ x.name + ', ' + x.country }}
+  </li>
+</ul>
+
+<div> 
+
+
+
+
+
+
+
+
+
+
+Reading JS file
+ <div ng-app="" ng-controller="customersController">
+
+<ul>
+  <li ng-repeat="x in names">
+    {{ x.Name + ', ' + x.Country }}
+  </li>
+</ul>
+
+</div>
+
+<script>
+function customersController($scope,$http) {
+    $http.get("http://www.w3schools.com/website/Customers_JSON.php")
+    .success(function(response) {$scope.names = response;});
+}
+</script> 
+Application explained:
+The AngularJS application is defined by ng-app. The application runs inside a <div>.
+The ng-controller directive names the controller object.
+The customersController function is a standard JavaScript object constructor.
+AngularJS will invoke customersController with a $scope and $http object.
+$scope is the application object (the owner of application variables and functions).
+ $http is an XMLHttpRequest object for requesting external data.
+$http.get() reads static JSON data from http://www.w3schools.com/website/Customers_JSON.php.
+If success, the controller creates a property (names) in the scope, with JSON data from the server.
+
+
+ <div ng-app="" ng-controller="customersController">
+
+<table>
+  <tr ng-repeat="x in names">
+    <td>{{ x.Name }}</td>
+    <td>{{ x.Country }}</td>
+  </tr>
+</table>
+
+</div>
+
+<script>
+function customersController($scope,$http) {
+  $http.get("http://www.w3schools.com/website/Customers_JSON.php")
+  .success(function(response) {$scope.names = response;});
+}
+</script> 
+
+
+
+
+Fetching Data From a PHP Server Running MySQL
+ <div ng-app="" ng-controller="customersController">
+<table>
+  <tr ng-repeat="x in names">
+    <td>{{ x.Name }}</td>
+    <td>{{ x.Country }}</td>
+  </tr>
+</table>
+</div>
+<script>
+function customersController($scope,$http) {
+    var site = "http://www.w3schools.com";
+    var page = "/website/Customers_MySQL.php";
+    $http.get(site + page)
+    .success(function(response) {$scope.names = response;});
+}
+</script> 
+<?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+
+$conn = new mysqli("myServer", "myUser", "myPassword", "Northwind");
+
+$result = $conn->query("SELECT CompanyName, City, Country FROM Customers");
+
+$outp = "[";
+while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+    if ($outp != "[") {$outp .= ",";}
+    $outp .= '{"Name":"'  . $rs["CompanyName"] . '",';
+    $outp .= '"City":"'   . $rs["City"]        . '",';
+    $outp .= '"Country":"'. $rs["Country"]     . '"}';
+}
+$outp .="]";
+
+$conn->close();
+
+echo($outp);
+?> 
+
+
+
+
+Modules define applications. All application controllers should belong to a module.
+
+Modules make your application more readable, and keep the global namespace clean. 
+ <!DOCTYPE html>
+<html>
+
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+</head>
+
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+{{ firstName + " " + lastName }}
+</div>
+
+<script src="myApp.js"></script>
+<script src="myCtrl.js"></script>
+
+</body>
+</html> 
+Controllers Pollute the Global Namespace
+
+All examples in this tutorial, have used global values (global variables or global functions).
+Global values should be avoided in applications. They can easily be overwritten or destroyed by other scripts.
+AngularJS modules can solve (or reduce) this problem.
+
+
+A Controller With a Module
+
+The application has a name (ng-app="myApp"), and the controller is a property of the module: 
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+</head>
+
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+{{ firstName + " " + lastName }}
+</div>
+
+<script>
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function($scope) {
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+});
+</script>
+
+</body>
+</html>
+
+
+
+When to Load the Library?
+A common advise for HTML applications, is to place all scripts at the very bottom of the <body> element.
+But, in many AngularJS examples, you will see the library in the <head> element.
+This is because calls to angular.module can only be compiled after the library has been loaded.
+Another solution is to load the AngularJS library in the <body> element, but before your own AngularJS scripts:  
+
+
+
+AngularJS Application Files
+
+Now that you know what modules are, and how they work, it is time to build your application file.
+Your application should have at least one module file, and one controller file for each controller.
+First create a module file "myApp.js":
+var app = angular.module("myApp", []);
+
+Then create the controller file(s). In this case "myCtrl.js":
+app.controller("myCtrl", function($scope) {
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+});
+ <!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+</head>
+<body>
+<div ng-app="myApp" ng-controller="myCtrl">
+{{ firstName + " " + lastName }}
+</div>
+<script src="myApp.js"></script>
+<script src="myCtrl.js"></script>
+</body>
+</html> 
+
+
+
+
+
+
+
+
+ <div ng-app="" ng-controller="formController">
+  <form novalidate>
+    First Name:<br>
+    <input type="text" ng-model="user.firstName"><br>
+    Last Name:<br>
+    <input type="text" ng-model="user.lastName">
+    <br><br>
+    <button ng-click="reset()">RESET</button>
+  </form>
+  <p>form = {{user}}</p>
+  <p>master = {{master}}</p>
+</div>
+
+<script>
+function formController ($scope) {
+    $scope.master = {firstName: "John", lastName: "Doe"};
+    $scope.reset = function() {
+        $scope.user = angular.copy($scope.master);
+    };
+    $scope.reset();
+};
+</script> 
+Example Explained
+
+The ng-app directive defines the AngularJS application.
+The ng-controller directive defines the application controller.
+The ng-model directive binds two input elements to the user object in the model.
+The formController() function sets initial values to the master object, and invokes the reset() method.
+The reset() method sets the user object equal to the master object.
+The ng-click directive invokes the reset() method, only if the button is clicked.
+The novalidate attribute is not needed for this application, but normally you will use it in AngularJS forms, to override standard HTML5 validation.
+
+
+
+
+Input fields
+ <!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+</head>
+<body>
+<h2>Validation Example</h2>
+<form  ng-app=""  ng-controller="validateCtrl"
+name="myForm" novalidate>
+<p>Username:<br>
+  <input type="text" name="user" ng-model="user" required>
+  <span style="color:red" ng-show="myForm.user.$dirty && myForm.user.$invalid">
+  <span ng-show="myForm.user.$error.required">Username is required.</span>
+  </span>
+</p>
+<p>Email:<br>
+  <input type="email" name="email" ng-model="email" required>
+  <span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+  <span ng-show="myForm.email.$error.required">Email is required.</span>
+  <span ng-show="myForm.email.$error.email">Invalid email address.</span>
+  </span>
+</p>
+<p>
+  <input type="submit"
+  ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||
+  myForm.email.$dirty && myForm.email.$invalid">
+</p>
+</form>
+<script>
+function validateCtrl($scope) {
+    $scope.user = 'John Doe';
+    $scope.email = 'john.doe@gmail.com';
+}
+</script>
+</body>
+</html> 
+Example Explained
+
+The AngularJS directive ng-model binds the input elements to the model.
+The model object has two properties: user and email.
+Because of ng-show, the spans with color:red are displayed only when user or email is $dirty and $invalid. 
