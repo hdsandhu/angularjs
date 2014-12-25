@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script>
+        var app = angular.module("GridCambiable", []);
+
+// Creamos y registramos el nuevo servicio de instagram
+app.factory('instagram', ['$http', function($http){
+
+	return {
+		fetchPopular: function(callback){
+            
+            var endPoint = "https://api.instagram.com/v1/tags/tattify/media/recent?client_id=642176ece1e7445e99244cec26f4de1f&callback=JSON_CALLBACK";
+            
+            $http.jsonp(endPoint).success(function(response){
+                callback(response.data);
+            });
+		}
+	}
+
+}]);
+
+app.controller('GridCambiableController', ['$scope', 'instagram' ,
+function ($scope, instagram){
+
+	// Layout por defecto
+
+	$scope.layout = 'grid';
+    
+    $scope.setLayout = function(layout){
+        $scope.layout = layout;
+    };
+    
+    $scope.isLayout = function(layout){
+        return $scope.layout == layout;
+    };
+
+	$scope.pics = [];
+
+	// Usamos el servicio q construimos
+	instagram.fetchPopular(function(data){
+
+		$scope.pics = data;
+	});
+
+}]);
+    </script>
+    <body>
+       <div ng-app="GridCambiable" ng-controller="GridCambiableController">
+
+	<div class="bar">
+
+		<!-- These two buttons switch the layout varaible,
+			 which causes the correct UL to be shown. -->
+
+		<a class="list-icon" ng-class="{active: isLayout('list')}" ng-click="setLayout('list')"></a>
+		<a class="grid-icon" ng-class="{active: isLayout('grid')}" ng-click="setLayout('grid')"></a>
+	</div>
+
+	<!-- We have two layouts. We choose which one to show depending on the "layout" binding -->
+
+	<ul ng-show="isLayout('grid')" class="grid">
+		<!-- A view with big photos and no text -->
+		<li ng-repeat="p in pics">
+			<a href="{{p.link}}" target="_blank"><img ng-src="{{p.images.low_resolution.url}}" /></a>
+		</li>
+	</ul>
+
+	<ul ng-show="isLayout('list')" class="list">
+		<!-- A compact view smaller photos and titles -->
+		<li ng-repeat="p in pics">
+			<a href="{{p.link}}" target="_blank"><img ng-src="{{p.images.thumbnail.url}}" /></a>
+			<p>{{p.caption.text}}</p>
+		</li>
+	</ul>
+</div>
+    </body>
+</html>
